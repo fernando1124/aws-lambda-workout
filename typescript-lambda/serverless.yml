@@ -1,0 +1,40 @@
+service: typescript-user
+
+plugins:
+  - serverless-offline
+  - serverless-dotenv-plugin
+  - serverless-prune-plugin
+  - serverless-webpack
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  profile: my-sandbox
+  stage: ${opt:stage, "dev"}
+  logRetentionInDays: 30
+  timeout: 30
+  apiGateway:
+    minimumCompressionSize: 1024
+
+custom:
+  prune:
+    automatic: true
+    number: 20
+  webpack:
+    webpackConfig: ./webpack.config.js
+    includeModules: true
+    packager: 'yarn'
+
+functions:
+  getUserList:
+    handler: src/lambdas/user_info.handler
+    events:
+      - http:
+          path: api/users
+          method: get
+  getUserInfo:
+    handler: src/lambdas/user_info.handler
+    events:
+      - http:
+          path: api/user
+          method: get

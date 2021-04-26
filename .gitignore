@@ -169,3 +169,8 @@ hs_err_pid*
 #### OS ####
 
 .DS_Store
+
+
+#### IntelliJ ####
+.idea/
+.vscode/
